@@ -8,23 +8,44 @@ int sottrazione(int d0, int d1,int d2);
 int operation(int d0,int d1,int d2);
 
 int main(){
-FILE *fp_read;
+FILE *fp_read,*fp_write;
 int d0,d1,d2;
 int checkoperation;
 int countscartati =0;
+int massimo,minimo;
 fp_read=fopen(inputtext,"r");
+fp_write=fopen("../output.txt","w");
 
-if(fp_read!=NULL){
+if(fp_read!=NULL && fp_write!=NULL){
     fscanf(fp_read,"%d%d%d",&d0,&d1,&d2);
+    if(d0>d1){
+        massimo=d0;
+        minimo=d1;
+    }else{
+        massimo=d1;
+        minimo=d0;
+    }
     while(!feof(fp_read)) {
         checkoperation=operation(d0,d1,d2);
         //printf("%d",checkoperation);
         if(checkoperation==0){
             fscanf(fp_read,"%d",&d2);
+            if(d2>massimo){
+                massimo=d2;
+            }
+            if(d2<minimo){
+                minimo=d2;
+            }
             countscartati++;
         }else{
             d0=d1;
             d1=d2;
+            if(d2>massimo){
+                massimo=d2;
+            }
+            if(d2<minimo){
+                minimo=d2;
+            }
             fscanf(fp_read,"%d",&d2);
 
         }
@@ -32,13 +53,18 @@ if(fp_read!=NULL){
 
     }
 }
+
+fprintf(fp_write,"Numero massimo: %d\n",massimo);
+fprintf(fp_write,"Numero minimo: %d\n",minimo);
+
 if (countscartati==0){
     printf("tutti i dati rispettano la condizione");
 }else{
-    printf("Numeri scarati: %d",countscartati);
-
+    fprintf(fp_write,"Numeri scarati: %d",countscartati);
 }
+
 fclose(fp_read);
+fclose(fp_write);
 return 0;
 
 }
