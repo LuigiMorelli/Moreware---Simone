@@ -25,6 +25,7 @@ int main() {
                 result=op1/op2;
             } else{
                 printf("impossibile eseguire operazione");
+                return -1;
             }
             break;
         case '*':
@@ -32,7 +33,8 @@ int main() {
             break;
         default:
             printf("hai digitato male");
+            return -2;
     }
-    printf("%f",result);
+    printf("%.2f",result);
     return 0;
 }
