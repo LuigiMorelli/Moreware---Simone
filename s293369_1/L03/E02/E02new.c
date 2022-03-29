@@ -47,60 +47,60 @@ int main(){
         fscanf(fp_input,"%c",&c2);
         while(!feof(fp_input)) {
 
-                if(parentesiaperte(c0)==1){
-                    countparentesiaperte++;
-                    flagforspace_btwtwonumber=0;
-                    flagforopenparentesi_r31=1;
-                    r31=1;
-                    r32=1;
-                    r33=1;
-                    flag_r33=0;
-                    r32final=0;
-                    r33final=0;
+            if(parentesiaperte(c0)==1){
+                countparentesiaperte++;
+                flagforspace_btwtwonumber=0;
+                flagforopenparentesi_r31=1;
+                r31=1;
+                r32=1;
+                r33=1;
+                flag_r33=0;
+                r32final=0;
+                r33final=0;
 
 
-                }else if(parentesichiuse(c0)==1){
-                    countparentesichiuse++;
-                    flagforspace_btwtwonumber=0;
-                    flagforopenparentesi_r31=0;
-                    flag_r32=1;
-                    r31final=0;
-                    r31=1;
-                    r32=1;
-                    r33=0;
-                }
+            }else if(parentesichiuse(c0)==1){
+                countparentesichiuse++;
+                flagforspace_btwtwonumber=0;
+                flagforopenparentesi_r31=0;
+                flag_r32=1;
+                r31final=0;
+                r31=1;
+                r32=1;
+                r33=0;
+            }
 
-                if(isnum(c0)==1){
-                    flagforspace_btwtwonumber=1;
-                    flagforopenparentesi_r31=0;
-                    r31final=0;
-                    r32final=0;
-                    r31=1;
-                    r32=1;
+            if(isnum(c0)==1){
+                flagforspace_btwtwonumber=1;
+                flagforopenparentesi_r31=0;
+                r31final=0;
+                r32final=0;
+                r31=1;
+                r32=1;
 
-                    r33=1;
-                    flag_r32=1;
-                    flag_r33=0;
-                    r33final=0;
-                }
+                r33=1;
+                flag_r32=1;
+                flag_r33=0;
+                r33final=0;
+            }
 
             if(isnum(c2)==1){
                 r32=0;
             }
 
-                if(isoperatore(c0)==1){
-                    flagforspace_btwtwonumber=0;
-                    r31=0;
-                    r32=1;
-                    r32final=0;
-                    flag_r32=0;
-                    flag_r33=1;
-                    if(isoperatore(c1)==1 || isoperatore(c2)==1){
-                        r33=0;
-                    }
+            if(isoperatore(c0)==1){
+                flagforspace_btwtwonumber=0;
+                r31=0;
+                r32=1;
+                r32final=0;
+                flag_r32=0;
+                flag_r33=1;
+                if(isoperatore(c1)==1 || isoperatore(c2)==1){
+                    r33=0;
                 }
+            }
 //punto 2
-                if(c0==' ' && flagforspace_btwtwonumber==1 && isnum(c1)==1){
+            if(c0==' ' && flagforspace_btwtwonumber==1 && isnum(c1)==1){
                 spacebtwnumber=1;
                 flagforspace_btwtwonumber=0;
             }
@@ -116,61 +116,64 @@ int main(){
                 flag_r32=0;
                 r32final=1;
             }
-           // printf("rffinal %c %d %d \n",c0,r32,r32final);
+            // printf("rffinal %c %d %d \n",c0,r32,r32final);
 
             //punto 3.3
-if(flag_r33==1 && r33==0){
-    flag_r33=0;
-    r33final=1;
-}
+            if(flag_r33==1 && r33==0){
+                flag_r33=0;
+                r33final=1;
+            }
 
 
 
-                if(c0=='\n'){
-                    countespressione++;
+            if(c0=='\n'){
+                countespressione++;
 //punto 1
-r32=1;
-                    if(countparentesiaperte!=countparentesichiuse){
-                        printf("errore nella lettura di una parentesi (espressione %d)\n",countespressione);
-                    }
+                r32=1;
+                if(countparentesiaperte!=countparentesichiuse){
+                    printf("errore nella lettura di una parentesi (espressione %d)\n",countespressione);
+                    r32=0;
+                }
 //punto 2
-                    if(spacebtwnumber==1){
-                        printf("Errore nella lettura di un numero a causa di spazio tra di essi (espressione %d)\n",countespressione);
-                    }
+                if(spacebtwnumber==1){
+                    printf("Errore nella lettura di un numero a causa di spazio tra di essi (espressione %d)\n",countespressione);
+                }
 
 //Punto 3.1
-                    if(r31final==1){
-                        printf("Errore 3.1 nella lettura di un operando (espressione %d)\n",countespressione);
+                if(r31final==1){
+                    printf("Errore 3.1 nella lettura di un operando (espressione %d)\n",countespressione);
 
-                    }
-
-                    if(r32final==1 && r32!=0){
-                        printf("Errore 3.2 nella lettura di un operando (espressione %d)\n",countespressione);
-
-                    }
-
-                    if(r33final==1){
-                        printf("Errore 3.3 nella lettura di un operando (espressione %d)\n",countespressione);
-
-                    }
-
-
-
-
-
-                    countparentesiaperte=0;
-                    flagforspace_btwtwonumber=0;
-                    countparentesichiuse=0;
-                    flagforopenparentesi_r31=0;
-                    r31=1;
-                    r31final=0;
-                    flag_r33=0;
-                    r33=1;
-                    r33final=0;
-                    spacebtwnumber=0;
                 }
+
+                if(r32final==1 && r32!=0){
+                    printf("Errore 3.2 nella lettura di un operando (espressione %d)\n",countespressione);
+
+                }
+
+                if(r33final==1){
+                    printf("Errore 3.3 nella lettura di un operando (espressione %d)\n",countespressione);
+
+                }
+
+
+
+
+
+                countparentesiaperte=0;
+                flagforspace_btwtwonumber=0;
+                countparentesichiuse=0;
+                flagforopenparentesi_r31=0;
+                r31=1;
+                r32=0;
+                r31final=0;
+                flag_r33=0;
+                r33=1;
+                r33final=0;
+                r32final=0;
+                spacebtwnumber=0;
+            }
             c0=c1;
-                c1=c2;
+            c1=c2;
             fscanf(fp_input,"%c",&c2);
 
         }
