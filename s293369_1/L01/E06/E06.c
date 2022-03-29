@@ -42,6 +42,7 @@ float calculator(char operation,float op1,float op2){
                 result=op1/op2;
             } else{
                 printf("impossibile eseguire operazione");
+                return -1;
             }
             break;
         case '*':
@@ -49,6 +50,7 @@ float calculator(char operation,float op1,float op2){
             break;
         default:
             printf("hai digitato male");
+            return -2;
     }
     return result;
 }
