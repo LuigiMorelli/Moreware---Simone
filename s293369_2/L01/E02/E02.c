@@ -54,7 +54,7 @@ void caricavettore(int v[],int dim){
 void ruotadestra(int v[MAXN], int dim, int P){
     int tmp;
     int i,j;
-    for(j=0;j<P;j++) {
+    for(j=0;j<(P%dim);j++) {
         tmp = v[dim-1];
         for (i = dim-1; i >0; i--) {
             v[i]=v[i-1];
@@ -66,8 +66,8 @@ void ruotadestra(int v[MAXN], int dim, int P){
 void ruotasinistra(int v[MAXN],int dim, int P){
     int tmp;
     int i;
-    tmp = v[0];
-    for(i=0;i<P;i++) {
+    for(i=0;i<(P%dim);i++) {
+        tmp = v[0];
         for (i = 0; i < dim - 1; i++)
             v[i] = v[i + 1];
         v[dim - 1] = tmp;
