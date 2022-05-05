@@ -7,9 +7,10 @@ void leggi_dim(int *dimrighe, int *dimcolonne, FILE *fpin);
 void caricamatrice(int mappa[][MAXN],  int dimrighe,int dimcolonne,FILE *fpin);
 void altezza(int mappa[][MAXN], int dimrighe,int dimcolonne);
 void larghezza(int mappa[][MAXN], int dimrighe,int dimcolonne);
-void area(int mappa[][MAXN], int dimrighe,int dimcolonne);
-int minimo(int a, int b, int c);
-
+void stampasommarighe(int mappa[][MAXN],  int dimrighe,int dimcolonne);
+int max_area_histogram(int appoggio[], int dimcolonne);
+int minimo(int a, int b);
+int massimo(int a, int b);
 
 int main(){
     FILE *fpin;
@@ -25,7 +26,7 @@ int main(){
         caricamatrice(mappa,dimrighe,dimcolonne,fpin);
         altezza(mappa,dimrighe,dimcolonne);
         larghezza(mappa,dimrighe,dimcolonne);
-        area(mappa,dimrighe,dimcolonne);
+        stampasommarighe(mappa,dimrighe,dimcolonne);
     }else{
         printf("errore file");
     }
@@ -123,72 +124,60 @@ void larghezza(int mappa[][MAXN], int dimrighe,int dimcolonne){
     printf("Max Larghezza: estremo(%d,%d), altezza=%d, larghezza=%d, area=%d\n",ricordacolonna-lmax+1,ricordariga-count+1,count,lmax,area);
 }
 
-void area(int mappa[][MAXN],int dimrighe, int dimcolonne){
+void stampasommarighe(int mappa[][MAXN],  int dimrighe,int dimcolonne){
     int i,j;
-    int S[dimrighe][dimcolonne];
-    int result,area,larghezza,altezza,estremox,estremoy;
-    int max_of_s, max_i, max_j;
-
-    //prima colonna
-    for(i = 0; i < dimrighe; i++){
-        S[i][0] = mappa[i][0];
-        //printf("%d ",S[i][0]);
-    }
-    //printf("\n");
-    //prima riga
-    for(j = 0; j < dimcolonne; j++){
-        S[0][j] = mappa[0][j];
-        //printf("%d ",S[0][j ]);
-    }
-    //printf("\n");
-    //printf("\n");
-
-    for(i = 1; i < dimrighe; i++)
-    {
-        for(j = 1; j < dimcolonne; j++)
-        {
-            if(mappa[i][j] == 1) {
-                result=minimo(S[i][j - 1], S[i - 1][j], S[i - 1][j - 1]);
-                S[i][j] = result + 1;
-            }else {
-                S[i][j] = 0;
+    int appoggio[dimcolonne];
+    int max=0;
+    int result;
+    for (i=0;i<dimrighe;i++){
+        for(j=0;j<dimcolonne;j++){
+            if(mappa[i][j]==0){
+                appoggio[j]=0;
+            }else{
+                if(i!=0) {
+                    appoggio[j] = appoggio[j] + mappa[i][j];
+                }else{
+                    appoggio[j] = mappa[i][j];
+                }
             }
-            //printf("%d ",S[i][j]);
+            //printf("%d ",appoggio[j]);
+        }
+        result=max_area_histogram(appoggio,dimcolonne);
+        if(result>max){
+            max=result;
         }
         //printf("\n");
     }
-
-    max_of_s = S[0][0]; max_i = 0; max_j = 0;
-    for(i = 0; i < dimrighe; i++)
-    {
-        for(j = 0; j < dimcolonne; j++)
-        {
-            if(max_of_s < S[i][j])
-            {
-                max_of_s = S[i][j];
-                max_i = i;
-                max_j = j;
-            }
-        }
-    }
-    //printf("\n\n");
-    //printf("i %d j %d s %d",max_i-max_of_s+1,max_j-max_of_s+1,max_of_s);
-    //printf("i %d j %d \n",max_i,max_j);
-    estremox=max_i-max_of_s+1;
-    estremoy=max_j-max_of_s+1;
-    larghezza=max_i-max_i-max_of_s;
-    altezza=max_j-max_j-max_of_s;
-    area=(larghezza)*(altezza);
-    printf("Max area: estremo(%d,%d), altezza=%d, larghezza=%d, area=%d\n",estremox,estremoy,altezza,larghezza,area);
-
+    printf("Max Area: estremo(x,x), altezza=h, larghezza=l, area=%d",max);
 }
 
-int minimo(int a, int b, int c)
-{
-    int m = a;
-    if (m > b)
-        m = b;
-    if (m > c)
-        m = c;
-    return m;
+int max_area_histogram(int appoggio[], int dimcolonne){
+    int max_area = 0;
+    int i,j,k,min_height;
+    for(i=0;i<dimcolonne;i++){
+        for(j=0;j<dimcolonne;j++){
+            min_height=minimo(appoggio[i],appoggio[j]);
+            for(k=i;k<j;k++){
+                min_height=minimo(min_height,appoggio[k]);
+            }
+            max_area = massimo(max_area, min_height * ((j - i) + 1));
+        }
+    }
+    return max_area;
+}
+
+int minimo(int a, int b){
+    if(a<b){
+        return a;
+    }else{
+        return b;
+    }
+}
+
+int massimo(int a, int b){
+    if(a>b){
+        return a;
+    }else{
+        return b;
+    }
 }
